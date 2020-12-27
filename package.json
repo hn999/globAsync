@@ -1,0 +1,27 @@
+{
+  "name": "glob-async",
+  "version": "1.0.0",
+  "description": "Simple wrapper of glob module.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hn999/globAsync.git"
+  },
+  "keywords": [
+    "glob",
+    "async",
+    "promise"
+  ],
+  "author": "h_n",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hn999/globAsync/issues"
+  },
+  "homepage": "https://github.com/hn999/globAsync#readme",
+  "dependencies": {
+    "glob": "*"
+  }
+}
