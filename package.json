@@ -1,7 +1,7 @@
 {
-  "name": "glob-async",
+  "name": "glob-ext",
   "version": "1.0.0",
-  "description": "Simple wrapper of glob module.",
+  "description": "Simple wrapper of glob module with multi file extension support",
   "main": "index.js",
   "scripts": {
     "test": "node test.js"
