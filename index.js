@@ -20,20 +20,23 @@ const glob = require('glob');
  * @returns {*} Array of file pathes. Ex) ["/Volumes/disk1/b.jpg", "/Volumes/disk2/work/dir2/a.mp4"]
  */
 async function globAsync(searchPathes, targets, matchCb, handleCb, options) {
-  function globPromise(searchPath, matchCb, handleCb) {
+  function globPromise(searchPath, matchCb, handleCb, cache) {
     return new Promise((resolve, reject) => {
-      let defaultOptions = { nocase: true };
+      let defaultOptions = { nocase: true, cache:cache };
       if(options) {
           defaultOptions = options;
           if(!("nocase" in options)) {
               options["nocase"] = true;
           }
+          if(!("cache" in options)) {
+            options["cache"] = cache;
+          }
       }
-      let gobj = new glob.Glob(searchPath, { nocase: true }, (err, matches) => {
+      let gobj = new glob.Glob(searchPath, defaultOptions, (err, matches) => {
         if (err) {
           reject(err);
         } else {
-          resolve(matches);
+          resolve([matches, gobj.cache]);
         }
       });
       if (handleCb) {handleCb(gobj)};
@@ -60,12 +63,14 @@ async function globAsync(searchPathes, targets, matchCb, handleCb, options) {
     }
   }
 
+  let cache = undefined;
   let results = [];
   for (let searchPath of searchs) {
-    let result = await globPromise(searchPath, matchCb, handleCb).catch((reason)=>{
+    let ret = await globPromise(searchPath, matchCb, handleCb).catch((reason)=>{
       throw reason;
     });
-    results = results.concat(result);
+    results = results.concat(ret[0]);
+    cache = ret[1];
   }
   return results;
 }
